@@ -96,11 +96,10 @@ class Robot(object):
 
         if pt_x is None:
             for obstacle in obstacles:
-                J_Obst = J_Obst + obstacle.get_alpha()*ma.exp(-obstacle.get_mu()*((ma.pow(self.get_coordinate("x")-obstacle.get_coordinate("x"),2))+(ma.pow(self.get_coordinate("y")-obstacle.get_coordinate("y"),2))))
-        
+                J_Obst = J_Obst + obstacle.get_alpha()*ma.exp(-0.5*ma.pow( (self.get_distance_to_object(goal=obstacle) / obstacle.get_sigma()),2.0))
         else:
             for obstacle in obstacles:
-                J_Obst = J_Obst + obstacle.get_alpha()*ma.exp(-obstacle.get_mu()*((ma.pow(pt_x-obstacle.get_coordinate("x"),2))+(ma.pow(pt_y-obstacle.get_coordinate("y"),2))))
+                J_Obst = J_Obst + obstacle.get_alpha()*ma.exp(-0.5*ma.pow( (self.get_distance_to_object(goal=obstacle, pt_x=pt_x, pt_y=pt_y) / obstacle.get_sigma()),2.0))
 
         return J_Obst
 
@@ -126,10 +125,9 @@ class Robot(object):
         """
 
         if pt_x is None:
-            return -goal.get_alpha()*ma.exp(-goal.get_mu()*((ma.pow(self.get_coordinate("x")-goal.get_coordinate("x"),2))+(ma.pow(self.get_coordinate("y")-goal.get_coordinate("y"),2))))
-
+            return -goal.get_alpha()*ma.exp(-0.5*ma.pow( (self.get_distance_to_object(goal=goal) / goal.get_sigma()),2.0))
         else:
-            return -goal.get_alpha()*ma.exp(-goal.get_mu()*((ma.pow(pt_x-goal.get_coordinate("x"),2))+(ma.pow(pt_y-goal.get_coordinate("y"),2))))
+            return -goal.get_alpha()*ma.exp(-0.5*ma.pow( (self.get_distance_to_object(goal=goal, pt_x=pt_x, pt_y=pt_y) / goal.get_sigma()),2.0))
 
     def cost_function(self, goal, obstacles, pt_x=None, pt_y=None):
         """
@@ -160,7 +158,7 @@ class Robot(object):
         else:
             return self._cost_function_for_goal(goal, pt_x=pt_x, pt_y=pt_y) + self._cost_function_for_obstacles(obstacles, pt_x=pt_x, pt_y=pt_x)
 
-    def get_distance_to_goal(self, goal, pt_x=None, pt_y=None):
+    def get_distance_to_object(self, goal, pt_x=None, pt_y=None):
         """
         This function is responsible for calculating distance to goal of a
         specified point. If pt_x and pt_y are not passed as a argument
@@ -213,7 +211,7 @@ class Robot(object):
             self._j_obst_artificial_points[0][num] = self._cost_function_for_obstacles(obstacles=obstacles, pt_x=self._artificial_point_x[0][num], pt_y=self._artificial_point_y[0][num])
             self._j_goal_artificial_points[0][num] = self._cost_function_for_goal(goal=goal, pt_x=self._artificial_point_x[0][num], pt_y=self._artificial_point_y[0][num])
             self._jt_artificial_points[0][num] = self._j_obst_artificial_points[0][num] + self._j_goal_artificial_points[0][num]
-            self._dtg_artificial_points[0][num] = self.get_distance_to_goal(goal=goal, pt_x=self._artificial_point_x[0][num], pt_y=self._artificial_point_y[0][num])
+            self._dtg_artificial_points[0][num] = self.get_distance_to_object(goal=goal, pt_x=self._artificial_point_x[0][num], pt_y=self._artificial_point_y[0][num])
         
         self._calculate_error(goal=goal, obstacles=obstacles)
         self._calculate_fitness()
@@ -232,7 +230,7 @@ class Robot(object):
         """
 
         JT = self._cost_function_for_obstacles(obstacles) + self._cost_function_for_goal(goal)
-        DTG = self.get_distance_to_goal(goal=goal)
+        DTG = self.get_distance_to_object(goal=goal)
 
         for num in range(0, self._npts):
             self._err_jt[0][num] = self._jt_artificial_points[0][num] - JT
@@ -276,12 +274,9 @@ class Robot(object):
         for num in range(0, self._npts):
             k = np.argmax(self._fitness[0])
             if (self._err_jt[0][k]<0):
-                if (self._err_dtg[0][k])<0.0:
-                    check = check + 1
-                    self._pos_x = self._artificial_point_x[0][k]
-                    self._pos_y = self._artificial_point_y[0][k]
-                else:
-                    self._fitness[0][k] = 0.0
+                check = check + 1
+                self._pos_x = self._artificial_point_x[0][k]
+                self._pos_y = self._artificial_point_y[0][k]
             else:
                 self._fitness[0][k] = 0.0
 
