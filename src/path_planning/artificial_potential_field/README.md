@@ -1,8 +1,8 @@
 # Python implmentation of Artificial Potential Field
 
 ## Running instruction:
-- Run the ArtificialPotentialField.py file from directory. User can defined
-objects like Robot, Goal, Obstacles in this file.
+- Run the main.py file from directory. 
+- User can defined objects like Robot, Goal, Obstacles in this file.
 
 ## Requirements
 - python
@@ -11,6 +11,7 @@ objects like Robot, Goal, Obstacles in this file.
 ## Features
 - Supports multiple obstacle objects 
 - Single robot and goal object
+- image saving capability added
 
 ## Fixed issues:
 - bug fixed in take_next_move function of Robot class
@@ -28,3 +29,6 @@ objects like Robot, Goal, Obstacles in this file.
 
 ## List of Obstacles:
 - obstacles = [obstacle1, obstacle2, obstacle3, obstacle4]
+
+## Output
+- Check demo.gif to see the output
