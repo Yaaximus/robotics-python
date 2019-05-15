@@ -15,6 +15,7 @@
 - Supports multiple obstacle objects 
 - Single robot and goal object
 - image saving capability added
+- positional class encorporated to remove duplicate code in all objects
 
 ## Fixed issues:
 - bug fixed in take_next_move function of Robot class
