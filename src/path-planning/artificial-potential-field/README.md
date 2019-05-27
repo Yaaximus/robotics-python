@@ -1,4 +1,4 @@
-# Python implmentation of Artificial Potential Field
+# Python implementation of Artificial Potential Field
 
 - Check demo_1.gif to see the output with 4 obstacles b/w robot and goal
 - Check demo_2.gif to see the output with 6 obstacles b/w robot and goal
