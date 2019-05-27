@@ -14,9 +14,9 @@ from population import population
 from fitness import fitness
 from ranking import ranking
 from dna import dna
+from draw_plot import draw_plot
 
 from config import Config
-
 
 def main():
 
@@ -57,9 +57,11 @@ def main():
         Config.generations += 1
 
     for i in range(3):
-        
-        print("Best chromosome number", i, "is:", chr_crossover_mutated_population[chr_best_fitness_index[i]])
 
+        print("Best chromosome number", i, "is:",
+              chr_crossover_mutated_population[chr_best_fitness_index[i]])
+
+    draw_plot(best_chromosome=chr_crossover_mutated_population[0])
 
 if __name__ == '__main__':
 
