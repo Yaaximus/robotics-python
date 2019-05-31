@@ -1,10 +1,11 @@
 # Python implementation of Genetic Algorithm in Path Planning
 
-![best_path_demo](https://user-images.githubusercontent.com/37571161/58435833-f5b53f00-80db-11e9-8f49-4963da3c2cbd.png)
+![GA_path_planning](https://user-images.githubusercontent.com/37571161/58662732-51820100-8344-11e9-97fb-a66e6e1cc877.gif)
 
 ## Running instruction:
 - Run the main.py file from directory. 
-- User can defined path points, links b/w path points, population size, mutation rate.
+- User can defined path points, links b/w path points, population size, mutation rate
+in the Config.py file
 
 ## Requirements
 - python
@@ -26,17 +27,25 @@ selection method
 - bug fixed in create population function
 - bug related to chromosome population fitness best indices removed
 - Bug in generate mating pool function of ranking file fixed
+- Bug removed in function check fitness based on connection in fitness file
 
 ## Example for usage: 
 #### You can initialize population in main function like:
-- initial_chromosome_population = population()
+- chr_population = population()
 #### You can calculate fitness & find best fitness indices in main function like:
-- chromosome_population_fitness, chromosome_best_fitness_index = fitness(
-new_chromosome_population=initial_chromosome_population)
+- chr_pop_fitness, chr_best_fitness_index = fitness(chr_pop=chr_population)
 #### You can obtain ranked population in main function like:
-- chromosome_populationn_ranked = ranking(chromosome_population_fitness=
-chromosome_population_fitness, new_population=initial_chromosome_population)
+- chr_ranked_population = ranking(chr_pop_fitness=chr_pop_fitness, pop=chr_population)
 #### You can do crossover & mutation in main function like:
 - chr_crossover_mutated_population = dna(chr_pop_fitness=chr_pop_fitness, 
-ranked_population=chr_ranked_population, chr_best_fitness_index=
-chr_best_fitness_index, init_pop=initial_chr_population)
+ranked_population=chr_ranked_population, chr_best_fitness_index=chr_best_fitness_index,
+last_pop=chr_population)
+
+## Objective
+- Use Genetic Algorithm for finding a best path for mobile robot in a 2D environment.
+- To move from starting point to the endpoint while avoiding collisions with
+obstacles and minimizing total distance travelled.
+
+## Flow Chart of Genetic Algorithm
+
+![flow_chart_GA](https://user-images.githubusercontent.com/37571161/58673241-f829ca00-8363-11e9-8643-9f508ce0f94c.png)

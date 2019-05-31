@@ -4,8 +4,8 @@ import numpy as np
 path_points = [[1, 7], [1, 11], [3, 14], [3, 1], [5, 8], [6, 11], [6, 4], [
     8, 4], [10, 1], [10, 7], [10, 11], [11, 14], [13, 12], [12, 2], [14, 3], [14, 8]]
 npts = len(path_points)
-pop_max = 50
-mutation_rate = 0.001
+pop_max = 1000
+mutation_rate = 0.01
 start_index = int(0)
 end_index = npts - 1
 generations = 1
@@ -14,9 +14,28 @@ nobs = 7
 nbits = ma.log10(npts) / ma.log10(2)
 chr_len = int(((nobs+2)*nbits)/nbits)
 stop_criteria = 0
+stop_generation = False
+img_iter_no = 1
+plt_tolerance = -1
+plt_ax_x_min = -1.0
+plt_ax_x_max = 16.0
+plt_ax_y_min = -1
+plt_ax_y_max = 16.0
+
 
 def define_links():
+    """
+    This function defines the links b/w path points
     
+    Returns
+    -------
+    [numpy.ndarray]
+        [Every path point has a number of allowed connection with other path 
+        points. Those allowed connections are defined below. During calculation
+        of fitness of population if two consecutive path points are connected
+        then the fitness of that chromosome increases]
+    """
+
     link = -1 * np.ones((16, 5))
 
     link[0][0] = 0
